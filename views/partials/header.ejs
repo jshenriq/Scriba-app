@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Blog</title>
+
+    <!-- CSS principal -->
+    <link rel="stylesheet" href="/css/main.min.css" />
+
+    <!-- Font Awesome para ícones -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <script src="/js/main.js" defer></script>
+  </head>
+  <body>
+    
+    <header class="main-header">
+      <div class="header-wrapper">
+      <div class="header-left">
+        <a href="/"><img src="/images/logo.png" alt="logo scriba" /></a>
+      </div>
+
+      <nav class="header-right">
+        <a href="/" class="nav-link">Home <i class="fa-solid fa-chevron-right mobile-arrow"></i></a>
+        
+
+        <% if (user) { %>
+          <a href="/dashboard" class="nav-link">Dashboard <i class="fa-solid fa-chevron-right mobile-arrow"></i></a>
+          <a href="/logout" class="nav-link">Logout <i class="fa-solid fa-chevron-right mobile-arrow"></i></a>
+        <% } else { %>
+          <a href="#newsletter" id="newsletter-link" class="nav-link">Newsletter <i class="fa-solid fa-chevron-right mobile-arrow"></i></a>
+          <a href="/login" class="nav-link">Login <i class="fa-solid fa-chevron-right mobile-arrow"></i></a>
+        <% } %>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="/create" class="btn-cta">
+          <i class="fa-solid fa-plus"></i> Novo Post
+        </a>
+      </div>
+
+      <div class="menu-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      </div>
+    </header>
+    <div class="mobile-overlay" id="overlay"></div>
+<main>
+
+  

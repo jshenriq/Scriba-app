@@ -1,0 +1,120 @@
+/* Container principal do post */
+.single-post {
+    max-width: 1200px;
+    margin: 40px auto;
+    /* padding: 20px; */
+    /* background: #fff; */
+    border-radius: 12px;
+}
+
+/* Meta dados (Autor e Data) acima do título */
+.post-meta {
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.post-meta i {
+    color: #007bff; 
+}
+
+.separator {
+    color: #dee2e6;
+}
+
+/* O título que você posicionou abaixo do meta */
+.post-title-detail {
+    font-size: 2.5rem;
+    font-weight: 800;
+    line-height: 1.2;
+    color: #212529;
+    margin: 24px 0 0;
+}
+
+/* Linha divisória */
+.divider {
+    border: 0;
+    border-top: 1px solid #eee;
+    margin: 16px 0 30px;
+}
+
+/* Conteúdo do texto */
+.post-content {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: #444;
+    margin-bottom: 40px;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
+}
+
+.post-content p {
+    margin-bottom: 1.5rem;
+}
+
+/* Botão de voltar */
+.post-footer {
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+}
+
+.btn.secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.2rem;
+    text-decoration: none;
+    color: var(--accent);
+    /* background: var(--accent); */
+    padding: 10px 0;
+    border-radius: 6px;
+    transition: background 0.2s;
+}
+
+.btn.secondary:hover {
+    color: var(--accent-hover);
+}
+
+.btn.secondary:hover i {
+    transform: translateX(-4px);
+}
+.btn.secondary i {
+    transition: transform 0.3s ease;
+}
+
+
+@media (max-width: 768px) {
+    .single-post {
+        margin: 20px auto;
+        /* padding: 0 15px; */
+    }
+
+    .post-title-detail {
+        font-size: 1.8rem;
+        margin-top: 20px;
+    }
+
+    .post-meta {
+        flex-wrap: wrap;
+        gap: 8px;
+        font-size: 0.85rem;
+    }
+
+    .separator {
+        display: none;
+    }
+
+    .post-content {
+        font-size: 1.1rem; 
+        line-height: 1.6;  
+        text-align: left;  
+    }
+
+    .btn.secondary {
+        font-size: 1rem;
+    }
+}

@@ -1,0 +1,85 @@
+<%- include('../partials/header.ejs') %>
+
+<section class="login-container">
+    <div class="login-card">
+    <div class="login-header">
+      <h2 class="auth-title">Crie sua <span>conta</span></h2>
+      <!-- <p class="auth-subtitle">Junte-se à nossa comunidade e comece a compartilhar suas ideias.</p> -->
+    </div>
+
+    <form action="/register" method="POST" class="auth-form">
+      <div class="input-group">
+        <label for="name">Nome Completo</label>
+        <div class="input-wrapper">
+          <i class="fa-solid fa-user"></i>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            placeholder="Como quer ser chamado?"
+            required
+            maxlength="100"
+            autocomplete="name"
+          />
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label for="email">E-mail</label>
+        <div class="input-wrapper">
+          <i class="fa-solid fa-envelope"></i>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="seu@email.com"
+            required
+            maxlength="100"
+            autocomplete="email"
+          />
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label for="password">Senha</label>
+        <div class="input-wrapper">
+          <i class="fa-solid fa-lock"></i>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Crie uma senha forte"
+            required
+            maxlength="50"
+            autocomplete="new-password"
+          />
+        </div>
+      </div>
+
+      <button type="submit" class="btn-login">
+        Criar conta <i class="fa-solid fa-user-plus"></i>
+      </button>
+    </form>
+
+    <% if (error && error.length > 0) { %>
+  <p style="color: red; padding: 16px 0;"><%= error[0] %></p>
+<% } %>
+
+    <div class="login-footer">
+      <p>Já possui uma conta? <a href="/login">Faça login aqui</a></p>
+    </div>
+  </div>
+
+
+
+</section>
+
+</main>
+
+  <footer>
+    <div class="footer-bottom-login">
+      <p>&copy; <%= new Date().getFullYear()%> Scriba App. Criado por Henrique!</p>
+    </div>
+</footer>
+</body>
+</html>

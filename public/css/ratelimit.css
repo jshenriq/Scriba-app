@@ -1,0 +1,31 @@
+
+
+#rate-limit-banner {
+    display: none;
+    background-color: #fff1f2;
+    border-radius: 16px;
+    margin: 0 auto;
+    color: #e11d48;
+    padding: 10px 0;
+    text-align: center;
+    font-weight: 600;
+    width: 60%;
+    z-index: 999;
+}
+
+/* Classe que o JS vai ativar */
+#rate-limit-banner.active {
+    display: block;
+    animation: slideDown 0.3s ease-out;
+}
+
+#timer-count {
+    font-family: monospace;
+    font-size: 1.2rem;
+    margin-left: 5px;
+}
+
+@keyframes slideDown {
+    from { transform: translateY(-100%); }
+    to { transform: translateY(0); }
+}

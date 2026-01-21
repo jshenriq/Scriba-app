@@ -1,0 +1,225 @@
+<%- include('../partials/header.ejs') %>
+
+<% if (success && success.length > 0) { %>
+    <div id="success-message" style="background-color: #d4edda; color: #155724; padding: 12px 15px; border-radius: 5px; margin-bottom: 20px; border: 1px solid #c3e6cb;">
+      <%= success[0] %>
+    </div>
+
+    <script>
+      setTimeout(() => {
+        const successMsg = document.getElementById('success-message');
+        if (successMsg) {
+          successMsg.style.transition = 'opacity 0.5s ease-out';
+          successMsg.style.opacity = '0';
+          setTimeout(() => successMsg.remove(), 500);
+        }
+      }, 5000);
+    </script>
+  <% } %>
+
+  <% if (error && error.length > 0) { %>
+    <div id="error-message" style="position: fixed; top: 90px; left: 50%; transform: translateX(-50%); background-color: #f8d7da; color: #721c24; padding: 15px 20px; border-radius: 8px; border: 1px solid #f5c6cb; box-shadow: 0 2px 8px rgba(0,0,0,0.15); max-width: 500px; z-index: 1000; display: flex; justify-content: space-between; align-items: center;">
+      <span><%= error[0] %></span>
+      <button id="close-error" style="background: none; border: none; font-size: 20px; cursor: pointer; color: #721c24; padding-left: 15px;">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <script>
+      const closeBtn = document.getElementById('close-error');
+      if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+          const errorMsg = document.getElementById('error-message');
+          errorMsg.style.transition = 'opacity 0.3s ease-out';
+          errorMsg.style.opacity = '0';
+          setTimeout(() => errorMsg.remove(), 300);
+        });
+      }
+    </script>
+  <% } %>
+
+
+  <div style="text-align: center; font-size: 0.9rem; margin: 12px 0;">
+  <h2>👋 Bem-vindo, <%= user.name %>!</h2>
+</div>
+
+  <section class="dashboard">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <h2>Manage Posts</h2>
+      <a href="/create" class="btn">+ Create Post</a>
+    </aside>
+
+    <!-- Lista de posts -->
+    <div class="post-list">
+      <h2>Your Posts</h2>
+
+      <!-- <form class="search-form" method="GET" action="/dashboard">
+        <input type="text" name="search" placeholder="Search post by title..." value="<%# search || '' %>" />
+        <button type="submit">Search</button>
+      </form> -->
+
+      <% if (posts && posts.length > 0) { %>
+        <table id="postTable">
+          <thead>
+            <tr>
+              <th>Título</th>
+              <th class="author-column">Autor</th>
+              <th>Data</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% posts.forEach(post => { %>
+              <tr>
+                <td class="post-title">
+                  <%= post.title %>
+                </td>
+                <td class="author-column author-limit">
+                  <%= post.author ? post.author.split(' ')[0] : "Admin" %>
+                </td>
+                <td>
+                  <%= post.formatted_date || "N/A" %>
+                </td>
+                <td>
+                  <a href="/edit/<%= post.id %>" class="icon-btn" title="Edit">
+                    <i class="fas fa-edit"></i>
+                  </a>
+
+                  <button class="icon-btn delete" data-id="<%= post.id %>" title="Delete">
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+
+        <template id="post-row-template">
+          <tr>
+            <td class="post-title"></td>
+            <td class="author-column author-limit"></td>
+            <td></td>
+            <td>
+              <a class="icon-btn" title="Edit">
+                <i class="fas fa-edit"></i>
+              </a>
+              <button class="icon-btn delete" title="Delete">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </td>
+          </tr>
+        </template>
+
+        <% if (hasMore) { %>
+          <div style="text-align: center; margin: 40px 0;">
+            <button id="loadMoreBtn"
+              style="
+                background: none;
+                border: none;
+                color: #f59e0b;
+                text-decoration: underline;
+                cursor: pointer;
+                font-size: 16px;
+              ">
+              Ver mais
+            </button>
+          </div>
+        <% } %>
+
+      <% } else { %>
+        <p>No posts created yet.</p>
+      <% } %>
+    </div>
+  </section>
+
+<script>
+  
+  // Renomeando para evitar conflito com o main.js
+const dashboardBtn = document.getElementById("loadMoreBtn");
+const dashboardTableContainer = document.querySelector("#postTable tbody");
+const dashboardPostTemplate = document.getElementById("post-row-template");
+
+if (dashboardBtn) {
+  dashboardBtn.addEventListener("click", async () => {
+    // Aqui ele vai usar o 'page' global do main.js, o que é ok, 
+    // ou você pode usar uma variável local se preferir isolar.
+    page++; 
+
+    try {
+      const res = await fetch(`/api/dashboard?page=${page}`);
+      
+      if (!res.ok) {
+        throw new Error(`Erro ao carregar posts: ${res.status}`);
+      }
+
+      const { posts, hasMore } = await res.json();
+
+      // Adiciona posts usando o template renomeado
+      for (let post of posts) {
+        const clone = dashboardPostTemplate.content.cloneNode(true);
+        clone.querySelector(".post-title").textContent = post.title;
+        clone.querySelector(".author-limit").textContent = (post.author ? post.author.split(' ')[0] : "Admin");
+        clone.querySelectorAll("td")[2].textContent = post.date || "N/A";
+        clone.querySelector(".icon-btn").href = `/edit/${post.id}`;
+        clone.querySelector(".delete").dataset.id = post.id;
+        dashboardTableContainer.appendChild(clone);
+      }
+
+      if (!hasMore) {
+        dashboardBtn.remove();
+      }
+
+    } catch (error) {
+      console.error(error);
+      let errorMsg = document.createElement("p");
+      errorMsg.textContent = "Ocorreu um erro ao carregar mais posts. Tente novamente.";
+      errorMsg.style.color = "red";
+      errorMsg.style.textAlign = "center";
+      dashboardTableContainer.appendChild(errorMsg);
+      dashboardBtn.disabled = true;
+    }
+  });
+}
+
+// Deletar posts via AJAX no Dashboard (Mantido, mas usando showMsg)
+document.addEventListener("click", async (e) => {
+  if (e.target.closest(".delete")) {
+    const deleteBtn = e.target.closest(".delete");
+    const id = deleteBtn.dataset.id;
+    try {
+      const res = await fetch(`/api/delete/${id}`, { method: "DELETE" });
+      const data = await res.json();
+
+      if (data.success) {
+        const tr = deleteBtn.closest("tr");
+        tr.classList.add("row-fade-out");
+        setTimeout(() => tr.remove(), 600);
+      } else {
+        showMsg(data.message || "Erro ao deletar o post.");
+      }
+    } catch (err) {
+      showMsg("Erro de conexão com o servidor");
+    }
+  }
+});
+
+function showMsg(message) {
+  let toastContainer = document.getElementById('toast-container');
+  if (!toastContainer) {
+    toastContainer = document.createElement('div');
+    toastContainer.id = 'toast-container';
+    document.body.appendChild(toastContainer);
+  }
+
+  const toast = document.createElement('div');
+  toast.className = 'toast-msg';
+  toast.textContent = message;
+  toastContainer.appendChild(toast);
+  setTimeout(() => {
+    toast.remove();
+  }, 5000);
+}
+
+</script>
+
+  <%- include('../partials/footer.ejs') %>

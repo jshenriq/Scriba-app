@@ -1,0 +1,40 @@
+<%- include('partials/header.ejs') %>
+
+<article class="single-post">
+    <header class="post-header">
+      <div class="post-meta">
+        <span class="author">
+          <i class="fa-solid fa-user"></i> Por <strong><%= post.author %></strong>
+        </span>
+        <span class="separator">|</span>
+        <span class="date">
+          <i class="fa-solid fa-calendar-days"></i> 
+          <% 
+            // Formatação: 1 de jan. de 2026
+            const data = new Date(post.created_at);
+            const dataFormatada = data.toLocaleDateString('pt-BR', { 
+              day: 'numeric', 
+              month: 'short', 
+              year: 'numeric' 
+            });
+          %>
+          <%= dataFormatada %>
+        </span>
+      </div>
+
+      <h1 class="post-title-detail"><%= post.title %></h1>
+    </header>
+
+    <hr class="divider">
+
+    <section class="post-content">
+      <p><%= post.content %></p>
+    </section>
+
+    <footer class="post-footer">
+      <a href="/" class="btn secondary">
+        <i class="fa-solid fa-arrow-left"></i> Voltar para posts
+      </a>
+    </footer>
+  </article>
+<%- include('partials/footer.ejs') %>

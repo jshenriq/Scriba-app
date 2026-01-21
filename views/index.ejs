@@ -1,0 +1,89 @@
+<%- include('partials/header.ejs') %>
+<%- include('partials/ratelimitbanner.ejs')  %>
+
+<section class="hero">
+  <div class="hero-content">
+    <h1 class="hero-title">Ideais que <span>Inspiram</span></h1>
+    <p>Explore conteúdos sobre tecnologia, design e criatividade.</p>
+    <div class="hero-buttons">
+
+
+      <div class="search-container">
+        <div class="search-wrapper">
+          <i class="fa-solid fa-magnifying-glass search-icon"></i>
+          <input
+            type="text"
+            placeholder="O que você quer ler hoje?"
+            class="search-input"
+          />
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<% if (error) { %>
+  <p style="margin-top: 40px; color: red; text-align: center;"><%= error %></p>
+  <% } %>
+
+<div class="section-header">
+  <h2 id="sectionTitle">Posts Recentes</h2>
+</div>
+<section class="cards-container" id="postsContainer">
+  <% if (posts && posts.length > 0) { %>
+    <% posts.forEach(post => { %>
+      <article class="modern-card">
+        <% if (post.img_url) {%> 
+        <div class="card-banner" style="background-image: url('<%= post.img_url %>')"></div>
+        <%  } %>
+        <div class="card-content">
+          <!-- <span class="card-tag"><%# post.category %></span> -->
+          <h3><%= post.title %></h3>
+          <p><%= post.content.substring(0, 100) %>...</p>
+          
+          <div class="card-footer-info">
+            <small>By <strong><%= post.author %></strong> • <%= post.formatted_date %></small>
+            <a href="/post/<%= post.id %>" class="card-link">Ler mais <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+        </div>
+      </article>
+    <% }) %>
+    <% } else { %>
+      <p style="margin-top: 40px; text-align: center;">Nenhum post encontrado.</p>
+      <% } %>
+  </section>
+
+<template id="post-template">
+  <article class="modern-card">
+    <div class="card-image"></div>
+    <div class="card-content">
+      <h3></h3>
+      <p></p>
+      <div class="card-footer-info">
+        <small></small>
+        <a class="card-link">Ler mais <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </article>
+</template>
+
+  <% if (hasMore) { %>
+    <div style="text-align: center; margin: 40px 0;">
+      <button id="loadMoreBtn"
+        style="
+          background: none;
+          border: none;
+          color: #f59e0b;
+          text-decoration: underline;
+          font-weight: 700;
+          cursor: pointer;
+          font-size: 1rem;
+        ">
+        Ver mais
+      </button>
+    </div>
+  <% } %>
+
+
+<%- include('partials/footer.ejs') %>

@@ -1,0 +1,218 @@
+/* ----------------------------
+   DASHBOARD
+---------------------------- */
+/* ----------------------------
+   DASHBOARD RESPONSIVO
+---------------------------- */
+@media (max-width: 1024px) {
+    .dashboard {
+        flex-direction: column;
+        gap: 15px;
+        padding: 15px;
+    }
+
+    .sidebar {
+        
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 15px;
+        border-radius: 5px;
+    }
+
+    .sidebar h2 {
+        margin-bottom: 0;
+    }
+
+    .sidebar .btn {
+        margin-bottom: 0;
+        padding: 8px 12px;
+        font-size: 0.9rem;
+    }
+
+    .post-list {
+        padding: 15px;
+    }
+
+    .post-list th, .post-list td {
+        padding: 8px;
+        font-size: 0.9rem;
+    }
+
+    .icon-btn {
+        font-size: 16px;
+        margin: 0 3px;
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        
+    }
+
+    .post-list th, .post-list td {
+        font-size: 0.85rem;
+    }
+
+    .icon-btn {
+        font-size: 14px;
+    }
+
+    .post-list table {
+        /* display: block; */
+        overflow-x: auto;
+        width: 100%;
+    }
+}
+
+.dashboard {
+    display: flex;
+    gap: 20px;
+    padding: 20px 0;
+}
+
+.sidebar {
+    background-color: #607274;
+    color: white;
+    padding: 20px;
+    border-radius: 5px;
+    flex-shrink: 0;
+}
+
+.sidebar h2 {
+    margin-bottom: 15px;
+}
+
+.sidebar .btn {
+    display: block;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #B2C9AB;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.sidebar .btn:hover {
+    background-color: #D3DDCB;
+}
+
+.post-title {
+  max-width: 200px; /* ajusta conforme o layout */
+  white-space: nowrap; /* mantém em uma linha */
+  overflow: hidden; /* esconde o texto que ultrapassa */
+  text-overflow: ellipsis; /* adiciona os 3 pontinhos (…) */
+}
+
+.author-limit {
+  max-width: 200px; /* ajusta conforme o layout */
+  white-space: nowrap; /* mantém em uma linha */
+  overflow: hidden; /* esconde o texto que ultrapassa */
+  text-overflow: ellipsis; /* adiciona os 3 pontinhos (…) */
+}
+
+@media (max-width: 768px) {
+  .author-column {
+    display: none;
+  }
+  .post-title {
+    max-width: 140px; 
+}
+}
+
+.post-list {
+    flex: 1;
+    background: #f4f4f4;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+/* Tabela do dashboard */
+.post-list table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.post-list th, .post-list td {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    text-align: left;
+}
+
+.post-list th {
+    background: #eee;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #3D4146; 
+    font-size: 18px;
+    margin: 0 5px;
+    transition: color 0.2s ease; /* Adicionei transição para o hover ficar suave */
+}
+
+.icon-btn.delete {
+    color: #c0392b;
+}
+.icon-btn.delete:hover {
+    color: #530606;
+
+}
+.icon-btn:hover {
+    color: #B2C9AB;
+}
+
+/* .search-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.search-form input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.search-form button {
+  background-color: #607274;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search-form button:hover {
+  background-color: #B2C9AB;
+} */
+
+
+/* .back-btn {
+  text-align: center;
+  margin-top: 25px;
+  
+}
+
+.back-btn a {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.back-btn a:hover {
+  background-color: #555;
+} */

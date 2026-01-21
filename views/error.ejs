@@ -1,0 +1,21 @@
+<%- include('./partials/header.ejs') %>
+
+
+<div class="error-box" style="margin: 100px 0 500px; text-align: center;">
+    <h1 style="padding: 12px;">Erro <%= statusCode %></h1>
+    <p><%= message %></p>
+
+    <button style="padding: 16px;
+                border: none;
+                border-radius: 16px;
+                margin-top: 20px;
+                background-color: #2563EB;
+                
+    ">
+    <a href="/" style="margin-top: 30px; color: white; text-decoration: none; font-weight: 600; font-size: 1rem;">Voltar para a página inicial</a>
+    </button>
+</div>
+
+
+
+<%- include('./partials/footer.ejs') %>

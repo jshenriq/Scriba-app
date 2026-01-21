@@ -1,0 +1,146 @@
+/* Container que organiza os 3 cards */
+.cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, /*1fr*/372px));
+    gap: 20px;
+    max-width: 1200px;
+    justify-content: center;
+    margin: 0px auto 80px; 
+    position: relative;
+    z-index: 10;
+    margin-top: 40px;
+}
+
+/* O Card Individual */
+.modern-card {
+    background-color: var(--white);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.modern-card:hover {
+    box-shadow: 0 20px 35px -10px rgba(37, 99, 235, 0.15);
+    border-color: rgba(37, 99, 235, 0.2);
+}
+
+/* Imagem do Card */
+.card-banner {
+    height: 160px; /* Era 220px, deixamos mais baixa */
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.5s ease;
+}
+
+.card-image {
+    height: 160px; /* Era 220px, deixamos mais baixa */
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.5s ease;
+}
+
+/* .modern-card:hover .card-banner {
+    transform: scale(1.02);
+} */
+
+/* Conteúdo do Card */
+.card-content {
+    padding: 20px; /* Era 28px */
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+/* Tag de Categoria */
+.card-tag {
+    display: inline-block;
+    background-color: rgba(37, 99, 235, 0.1); /* Azul claro transparente */
+    color: var(--primary);
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 16px;
+    align-self: flex-start;
+}
+
+.card-content h3 {
+    font-size: 1.4rem;
+    color: var(--text-main);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 2.6em;  /*min-hight e lineclamp pra forçar os paragrafos os titulos a terem a mesma altura e manter simetria*/
+    line-height: 1.3;
+    margin-bottom: 12px;
+    font-weight: 700;
+}
+
+.card-content p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 15px;
+    
+    /* O "line-clamp" que conversamos: trava em 2 linhas */
+    display: -webkit-box;
+    -webkit-line-clamp: 2; 
+    line-clamp: 2;
+    -webkit-box-orient: vertical;  
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Rodapé do Card (Autor, Data e Link) */
+.card-footer-info {
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px solid #F1F5F9;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.card-footer-info small {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+.card-footer-info small strong {
+    color: var(--text-main);
+}
+
+/* Link "Read more" */
+.card-link {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    transition: color 0.3s ease;
+}
+
+.card-link i {
+    font-size: 0.8rem;
+    transition: transform 0.3s ease;
+}
+
+.card-link:hover {
+    color: var(--accent-hover);
+}
+
+.card-link:hover i {
+    transform: translateX(5px); /* Setinha se move para a direita */
+}
+

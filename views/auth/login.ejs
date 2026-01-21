@@ -1,0 +1,65 @@
+<%- include('../partials/header.ejs') %>
+
+<section class="login-container">
+  <div class="login-card">
+    <div class="login-header">
+      <h2 class="auth-title">Bem-vindo de <span>volta</span></h2>
+      <p class="auth-subtitle">Acesse sua conta.</p>
+    </div>
+
+    <form action="/login" method="POST" class="auth-form">
+      <div class="input-group">
+        <label for="email">E-mail</label>
+        <div class="input-wrapper">
+          <i class="fa-solid fa-envelope"></i>
+          <input
+            type="email"
+            name="email"
+            placeholder="seu@email.com"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="input-group">
+        <div class="label-row">
+          <label for="password">Senha</label>
+        </div>
+        <div class="input-wrapper">
+            <i class="fa-solid fa-lock"></i>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Digite sua senha"
+            required
+          />
+        </div>
+      </div>
+
+      <% if (error && error.length > 0) { %>
+        <p style="color: red; padding: 16px 0;"><%= error[0] %></p>
+      <% } %>
+
+      <button type="submit" class="btn-login">
+        Entrar <i class="fa-solid fa-arrow-right-to-bracket"></i>
+      </button>
+    </form>
+
+    <div class="login-footer">
+      <p>Não tem uma conta? <a href="/register">Crie uma agora</a></p>
+    </div>
+  </div>
+
+
+</section>
+
+</main>
+
+  <footer>
+  <div class="footer-bottom-login">
+    <p>&copy; <%= new Date().getFullYear()%> Scriba App. Criado por Henrique!</p>
+  </div>
+</footer>
+</body>
+</html>

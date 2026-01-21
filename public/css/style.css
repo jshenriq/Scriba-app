@@ -1,0 +1,130 @@
+/* ----------------------------
+   RESET E BASE
+---------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900');
+@import url('login.css');
+@import url('header.css');
+@import url('hero.css');
+/* @import url('posts.css'); */
+@import url('postdetail.css');
+@import url('forms.css');
+@import url('dashboard.css');
+@import url('footer.css');
+@import url('animation.css');
+@import url('cardshero.css');
+@import url('ratelimit.css');
+
+
+:root {
+    --bg-body: #F8FAFC;
+    --text-main: #0F172A;
+    --text-muted: #64748b;
+
+    --primary: #2563EB;
+    --primary-hover: #1d4ed8;
+    --accent: #f59e0b;
+    --accent-hover: #d97706;
+
+    --white: #FFFFFF;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+    --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+    --radius-lg: 12px;
+    --radius-pill: 50px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+html, body {
+    height: 100%;
+    scroll-behavior: smooth;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg-body);
+    color: var(--text-main);
+    font-family: 'Inter', sans-serif;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+/* ----------------------------
+   MAIN
+---------------------------- */
+main {
+    flex: 1;
+    padding: 20px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+
+    
+
+}
+
+/* Mobile UX: adiciona margem pro scrollIntoView */
+/* input, textarea, select {
+  scroll-margin-bottom: 60px; 
+} */
+
+/* error msgs for ajax request*/
+#toast-container {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+}
+
+.toast-msg {
+    background-color: #ef4444;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    margin-bottom: 10px;
+    animation: fadeInOut 5s forwards;
+    font-weight: 600;
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; transform: translateY(-20px); }
+    10% { opacity: 1; transform: translateY(0px); }
+    90% { opacity: 1; transform: translateY(00px); }
+    100% { opacity: 0; transform: translateY(-20px); }
+}
+
+
+
+
+
+.row-fade-out {
+    animation: deleteAnimation 0.5s ease-out forwards;
+    pointer-events: none;
+}
+
+@keyframes deleteAnimation {
+    0% {
+        opacity: 1;
+        transform: translateX(0);
+        background-color: transparent;
+    }
+    20% {
+        /* Um realce muito sutil para indicar qual linha está saindo */
+        background-color: rgba(0, 0, 0, 0.02); 
+    }
+    100% {
+        opacity: 0;
+        /* Apenas 15px de deslocamento para não parecer exagerado */
+        transform: translateX(15px);
+    }
+}
+

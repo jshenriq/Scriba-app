@@ -1,0 +1,42 @@
+<%- include('../partials/header.ejs') %>
+
+<section class="edit-post">
+  <h2>Edit Post</h2>
+  <% if (success && success.length > 0) { %>
+    <div id="success-message" style="background-color: #d4edda; color: #155724; padding: 12px 15px; border-radius: 5px; margin-bottom: 20px; border: 1px solid #c3e6cb;">
+      <%= success[0] %>
+    </div>
+
+    <script>
+      setTimeout(() => {
+        const successMsg = document.getElementById('success-message');
+        if (successMsg) {
+          successMsg.style.transition = 'opacity 0.5s ease-out';
+          successMsg.style.opacity = '0';
+          setTimeout(() => successMsg.remove(), 500);
+        }
+      }, 4000);
+    </script>
+  <% } %>
+
+  <% if (error && error.length > 0) { %>
+    <div style="background-color: #f8d7da; color: #721c24; padding: 12px 15px; border-radius: 5px; margin-bottom: 20px; border: 1px solid #f5c6cb;">
+      <%= error[0] %>
+    </div>
+  <% } %>
+  <form action="/edit/<%= post.id %>" method="POST" class="post-form">
+    <input type="text" name="title" value="<%= post.title %>" required>
+    <textarea name="content" required><%= post.content %></textarea>
+    
+    <div style="margin-top: 15px; padding: 10px; background-color: #f5f5f5; border-radius: 5px;">
+      <p><strong>Autor:</strong> <%= post.author %></p>
+      <p><strong>Data:</strong> <%= new Date(post.created_at).toLocaleDateString('pt-BR') %></p>
+    </div>
+    
+    <button type="submit" class="btn">Save Changes</button>
+  </form>
+</section>
+
+
+
+<%- include('../partials/footer.ejs') %>

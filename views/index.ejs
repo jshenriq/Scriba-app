@@ -23,7 +23,7 @@
   </div>
 </section>
 
-<% if (error) { %>
+<% if (locals.error) { %>
   <p style="margin-top: 40px; color: red; text-align: center;"><%= error %></p>
   <% } %>
 
@@ -31,7 +31,7 @@
   <h2 id="sectionTitle">Posts Recentes</h2>
 </div>
 <section class="cards-container" id="postsContainer">
-  <% if (posts && posts.length > 0) { %>
+  <% if (locals.posts && posts.length > 0) { %>
     <% posts.forEach(post => { %>
       <article class="modern-card">
         <% if (post.img_url) {%> 
@@ -68,7 +68,7 @@
   </article>
 </template>
 
-  <% if (hasMore) { %>
+  <% if (locals.hasMore) { %>
     <div style="text-align: center; margin: 40px 0;">
       <button id="loadMoreBtn"
         style="

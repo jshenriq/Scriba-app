@@ -27,7 +27,7 @@
         <a href="/" class="nav-link">Home <i class="fa-solid fa-chevron-right mobile-arrow"></i></a>
         
 
-        <% if (user) { %>
+        <% if (locals.user) { %>
           <a href="/dashboard" class="nav-link">Dashboard <i class="fa-solid fa-chevron-right mobile-arrow"></i></a>
           <a href="/logout" class="nav-link">Logout <i class="fa-solid fa-chevron-right mobile-arrow"></i></a>
         <% } else { %>

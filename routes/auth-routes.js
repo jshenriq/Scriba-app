@@ -1,8 +1,8 @@
 import express from "express";
 import passport from "passport";
-import * as authController from "../controllers/authController.js";
-import isNotAuthenticated from "../middlewares/isNotAuthenticated.js";
-import { authLimiter } from "../middlewares/rateLimit.js"
+import * as authController from "../controllers/auth-controller.js";
+import isNotAuthenticated from "../middlewares/is-not-authenticated.js";
+import { authLimiter } from "../middlewares/rate-limit.js"
 
 const router = express.Router();
 

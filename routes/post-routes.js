@@ -1,7 +1,7 @@
 import express from "express";
-import * as postController from "../controllers/postController.js";
-import isAuthenticated from "../middlewares/isAuthenticated.js";
-import { generalLimiter } from "../middlewares/rateLimit.js";
+import * as postController from "../controllers/post-controller.js";
+import isAuthenticated from "../middlewares/is-authenticated.js";
+import { generalLimiter } from "../middlewares/rate-limit.js";
 
 const router = express.Router();
 

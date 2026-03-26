@@ -1,4 +1,4 @@
-import * as PostModel from "../models/postModel.js"; //importa as funções pra posts.
+import * as PostModel from "../models/post.js"; //importa as funções pra posts.
 
 //public pages
 export async function renderHome(req, res) {

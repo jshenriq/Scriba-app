@@ -1,6 +1,6 @@
 import express from "express";
-import * as pageController from "../controllers/pageController.js";
-import { generalLimiter } from "../middlewares/rateLimit.js";
+import * as pageController from "../controllers/page-controller.js";
+import { generalLimiter } from "../middlewares/rate-limit.js";
 
 const router = express.Router();
 

@@ -8,11 +8,11 @@ import "./config/db.js";
 import "./config/passport.js";
 
 
-import authRoutes from "./routes/authRoutes.js";
-import postRoutes from "./routes/postRoutes.js";
-import pageRoutes from "./routes/pageRoutes.js";
+import authRoutes from "./routes/auth-routes.js";
+import postRoutes from "./routes/post-routes.js";
+import pageRoutes from "./routes/page-routes.js";
 
-import errorHandler from "./middlewares/errorHandler.js";
+import errorHandler from "./middlewares/error-handler.js";
 
 const app = express();
 

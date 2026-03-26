@@ -1,4 +1,4 @@
-import * as PostModel from "../models/postModel.js";
+import * as PostModel from "../models/post.js";
 
 
 //controller to render pages

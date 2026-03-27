@@ -1,7 +1,45 @@
+// auth-controller.js
 import bcrypt from "bcryptjs";
 import { getUserByEmail, createUser } from "../models/user.js";
 
-const saltRounds = 10;
+const SALT_ROUNDS = 10;
+
+function hasRequiredRegisterFields({ name, email, password }) {
+  return Boolean(name && email && password);
+}
+
+async function checkIfUserExists(email) {
+  const user = await getUserByEmail(email);
+  return Boolean(user);
+}
+
+async function hashPassword(password) {
+  return bcrypt.hash(password, SALT_ROUNDS);
+}
+
+function loginUserAfterRegister(req, user) {
+  return new Promise((resolve, reject) => {
+    req.login(user, (err) => {
+      if (err) reject(err);
+      else resolve();
+    });
+  });
+}
+
+async function createAndLoginUser(registerFields, req, res) {
+  const { name, email, password } = registerFields;
+  const hashedPassword = await hashPassword(password);
+  const user = await createUser(name, email, hashedPassword);
+
+  try {
+    await loginUserAfterRegister(req, user);
+    res.redirect("/dashboard");
+  } catch (err) {
+    console.error("Erro ao autenticar após registro:", err);
+    req.flash("error", "Erro ao autenticar. Tente fazer login manualmente.");
+    res.redirect("/login");
+  }
+}
 
 export async function renderLoginPage(req, res) {
   res.render("auth/login");
@@ -11,41 +49,29 @@ export async function renderRegisterPage(req, res) {
   res.render("auth/register");
 }
 
-//(POST) do formulario de registro
 export async function registerUser(req, res) {
-  const { name, email, password } = req.body;
+  const registerFields = {
+    name: req.body.name,
+    email: req.body.email,
+    password: req.body.password,
+  };
 
-  if (!name || !email || !password) {
+  if (!hasRequiredRegisterFields(registerFields)) {
     req.flash("error", "Campos obrigatórios");
     return res.redirect("/register");
   }
 
-   try {
-    const checkUser = await getUserByEmail(email);
-    if (checkUser) {
+  try {
+    if (await checkIfUserExists(registerFields.email)) {
       req.flash("error", "Este email já está em uso");
       return res.redirect("/register");
     }
 
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
-    const user = await createUser(name, email, hashedPassword);
-
-    // LOGIN AUTOMÁTICO APÓS REGISTRO
-    req.login(user, (err) => {
-      if (err) {
-        console.error(err);
-        req.flash("error", "Erro ao autenticar");
-        return res.redirect("/login");
-      }
-
-      return res.redirect("/dashboard");
-    });
-
-
+    await createAndLoginUser(registerFields, req, res);
   } catch (err) {
-    console.error("Erro no registro de usuário: ", err);
+    console.error("Erro no registro de usuário:", err);
     req.flash("error", "Erro ao criar conta. Tente novamente.");
-    res.redirect("/register");
+    return res.redirect("/register");
   }
 }
 

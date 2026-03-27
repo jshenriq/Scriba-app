@@ -1,9 +1,9 @@
-import * as PostModel from "../models/post.js"; //importa as funções pra posts.
+import { getPosts, getPublicPostById } from "../models/post.js"; //importa as funções pra posts.
 
 //public pages
 export async function renderHome(req, res) {
   try {
-    const { posts, hasMore } = await PostModel.getPosts(3, 1);
+    const { posts, hasMore } = await getPosts(3, 1);
     res.render("index", { posts, hasMore });
   } catch (error) {
     console.error("Erro ao carregar a home:", error);
@@ -14,7 +14,7 @@ export async function renderHome(req, res) {
 
 export async function showPost(req, res) {
   const postId = req.params.id;
-  const post = await PostModel.getPublicPostById(postId);
+  const post = await getPublicPostById(postId);
   try {
     if (!post) {
     return res.status(404).render('404', { title: 'Post não encontrado' });
@@ -35,7 +35,7 @@ export async function getPostsApi(req, res) {
   const limit = search ? 6 : 3;
 
   try {
-    const { posts, hasMore } = await PostModel.getPosts(limit, page, search);
+    const { posts, hasMore } = await getPosts(limit, page, search);
     res.json({ posts, hasMore });
   } catch (error) {
     console.error("Erro na API de posts:", error);

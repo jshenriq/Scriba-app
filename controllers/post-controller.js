@@ -1,11 +1,18 @@
-import * as PostModel from "../models/post.js";
+import {
+  getPostsByUserId,
+  getPostForEditPage,
+  updatePost,
+  countPostsByUserId,
+  createPost,
+  deletePost
+} from "../models/post.js";
 
 
 //controller to render pages
 export async function renderDashboardPage(req, res) {
   try {
     const userId = req.user.id;
-    const { posts, hasMore } = await PostModel.getPostsByUserId(userId, 10, 1);
+    const { posts, hasMore } = await getPostsByUserId(userId, 10, 1);
     res.render("posts/dashboard", { posts, hasMore });
   } catch (error) {
     console.error("Erro ao carregar posts na pagina dashBoard:", error);
@@ -21,7 +28,7 @@ export async function renderEditPage(req, res) {
   try {
     const postId = req.params.id;
     const userId = req.user.id;
-    const post = await PostModel.getPostForEditPage(postId, userId);
+    const post = await getPostForEditPage(postId, userId);
     
     if (!post) {
       req.flash("error", "Você não tem permissão para editar este post ou ele não existe!");
@@ -50,7 +57,7 @@ export async function editPost(req, res) {
   }
 
   try {
-    await PostModel.updatePost(postId, userId, title, content, null);
+    await updatePost(postId, userId, title, content, null);
     req.flash("success", "Post atualizado com sucesso!");
     res.redirect(`/edit/${postId}`);
   } catch (err) {
@@ -71,13 +78,13 @@ export async function createPost(req, res) {
     }
 
     //limitar a quantidade de posts que um usuário pode criar
-    const totalPosts = await PostModel.countPostsByUserId(userId);
+    const totalPosts = await countPostsByUserId(userId);
     if (totalPosts >= 5) {
       req.flash("error", "Você já atingiu o limite máximo de 5 posts.");
       return res.redirect("/dashboard");
     }
 
-    await PostModel.createPost(userId, title, content, imgUrl || null);
+    await createPost(userId, title, content, imgUrl || null);
     req.flash("success", "Post criado com sucesso!");
     res.redirect("/dashboard");
   } catch (error) {
@@ -94,7 +101,7 @@ export async function getDashboardPostsApi(req, res) {
   const limit = 10;
 
   try {
-    const { posts, hasMore } = await PostModel.getPostsByUserId(userId, limit, page);
+    const { posts, hasMore } = await getPostsByUserId(userId, limit, page);
     res.json({ posts, hasMore });
   } catch (error) {
     console.error("Erro na API do dashboard:", error);
@@ -109,7 +116,7 @@ export async function deletePostApi(req, res) {
   const postId = req.params.id;
 
   try {
-    const deleted = await PostModel.deletePost(postId, userId);
+    const deleted = await deletePost(postId, userId);
 
     if (!deleted) {
       return res.status(403).json({ success: false, message: "Erro ao tentar deletar post" });

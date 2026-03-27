@@ -1,13 +1,13 @@
 import express from "express";
-import * as pageController from "../controllers/page-controller.js";
+import { renderHomePage, renderPostPage, getPostsApi } from "../controllers/page-controller.js";
 import { generalLimiter } from "../middlewares/rate-limit.js";
 
 const router = express.Router();
 
-router.get("/", pageController.renderHome);
+router.get("/", renderHomePage);
 
-router.get('/post/:id', pageController.showPost);
+router.get('/post/:id', renderPostPage);
 
-router.get("/api/posts", generalLimiter, pageController.getPostsApi);
+router.get("/api/posts", generalLimiter, getPostsApi);
 
 export default router;

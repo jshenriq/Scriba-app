@@ -1,7 +1,7 @@
 import { getPosts, getPublicPostById } from "../models/post.js"; //importa as funções pra posts.
 
 //public pages
-export async function renderHome(req, res) {
+export async function renderHomePage(req, res) {
   try {
     const { posts, hasMore } = await getPosts(3, 1);
     res.render("index", { posts, hasMore });
@@ -12,7 +12,7 @@ export async function renderHome(req, res) {
 }
 
 
-export async function showPost(req, res) {
+export async function renderPostPage(req, res) {
   const postId = req.params.id;
   const post = await getPublicPostById(postId);
   try {

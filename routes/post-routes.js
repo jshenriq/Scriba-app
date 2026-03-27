@@ -1,24 +1,32 @@
 import express from "express";
-import * as postController from "../controllers/post-controller.js";
+import {
+  getDashboardPostsApi,
+  renderDashboardPage,
+  renderCreatePostPage,
+  createPost,
+  renderEditPage,
+  editPost,
+  deletePostApi
+} from "../controllers/post-controller.js";
 import isAuthenticated from "../middlewares/is-authenticated.js";
 import { generalLimiter } from "../middlewares/rate-limit.js";
 
 const router = express.Router();
 
 // API para carregar mais posts do dashboard (load more)
-router.get("/api/dashboard", generalLimiter, isAuthenticated, postController.getDashboardPostsApi);
+router.get("/api/dashboard", generalLimiter, isAuthenticated, getDashboardPostsApi);
 
-router.get("/dashboard", isAuthenticated, postController.renderDashboardPage);
+router.get("/dashboard", isAuthenticated, renderDashboardPage);
 
 //rotas pra pagina de criar novo post
-router.get("/create", isAuthenticated, postController.renderCreatePostPage);
-router.post("/create", generalLimiter, isAuthenticated, postController.createPost);
+router.get("/create", isAuthenticated, renderCreatePostPage);
+router.post("/create", generalLimiter, isAuthenticated, createPost);
 
 //rotas pra pagina edit
-router.get("/edit/:id", isAuthenticated, postController.renderEditPage);
-router.post("/edit/:id", generalLimiter, isAuthenticated, postController.editPost)
+router.get("/edit/:id", isAuthenticated, renderEditPage);
+router.post("/edit/:id", generalLimiter, isAuthenticated, editPost)
 
-router.delete("/api/delete/:id", generalLimiter, isAuthenticated, postController.deletePostApi);
+router.delete("/api/delete/:id", generalLimiter, isAuthenticated, deletePostApi);
 
 
 

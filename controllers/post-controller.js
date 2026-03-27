@@ -3,7 +3,7 @@ import {
   getPostForEditPage,
   updatePost,
   countPostsByUserId,
-  createPost,
+  createPost as createPostModel,
   deletePost
 } from "../models/post.js";
 
@@ -84,7 +84,7 @@ export async function createPost(req, res) {
       return res.redirect("/dashboard");
     }
 
-    await createPost(userId, title, content, imgUrl || null);
+    await createPostModel(userId, title, content, imgUrl || null);
     req.flash("success", "Post criado com sucesso!");
     res.redirect("/dashboard");
   } catch (error) {

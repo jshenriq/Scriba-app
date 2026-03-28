@@ -12,7 +12,9 @@ import {
 export async function renderDashboardPage(req, res) {
   try {
     const userId = req.user.id;
-    const { posts, hasMore } = await getPostsByUserId(userId, 10, 1);
+    const limitPerPage = 10;
+    const pageNumber = 1;
+    const { posts, hasMore } = await getPostsByUserId(userId, limitPerPage, pageNumber);
     res.render("posts/dashboard", { posts, hasMore });
   } catch (error) {
     console.error("Erro ao carregar posts na pagina dashBoard:", error);

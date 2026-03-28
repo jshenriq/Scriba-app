@@ -1,45 +1,9 @@
-// auth-controller.js
 import bcrypt from "bcryptjs";
 import { getUserByEmail, createUser } from "../models/user.js";
 
 const SALT_ROUNDS = 10;
 
-function hasRequiredRegisterFields({ name, email, password }) {
-  return Boolean(name && email && password);
-}
-
-async function checkIfUserExists(email) {
-  const user = await getUserByEmail(email);
-  return Boolean(user);
-}
-
-async function hashPassword(password) {
-  return bcrypt.hash(password, SALT_ROUNDS);
-}
-
-function loginUserAfterRegister(req, user) {
-  return new Promise((resolve, reject) => {
-    req.login(user, (err) => {
-      if (err) reject(err);
-      else resolve();
-    });
-  });
-}
-
-async function createAndLoginUser(registerFields, req, res) {
-  const { name, email, password } = registerFields;
-  const hashedPassword = await hashPassword(password);
-  const user = await createUser(name, email, hashedPassword);
-
-  try {
-    await loginUserAfterRegister(req, user);
-    res.redirect("/dashboard");
-  } catch (err) {
-    console.error("Erro ao autenticar após registro:", err);
-    req.flash("error", "Erro ao autenticar. Tente fazer login manualmente.");
-    res.redirect("/login");
-  }
-}
+// --- Funções exportadas (alto nível) ---
 
 export async function renderLoginPage(req, res) {
   res.render("auth/login");
@@ -67,7 +31,8 @@ export async function registerUser(req, res) {
       return res.redirect("/register");
     }
 
-    await createAndLoginUser(registerFields, req, res);
+    const user = await createNewUser(registerFields);
+    await loginAfterRegister(req, res, user);
   } catch (err) {
     console.error("Erro no registro de usuário:", err);
     req.flash("error", "Erro ao criar conta. Tente novamente.");
@@ -84,3 +49,44 @@ export function logout(req, res) {
     res.redirect("/login");
   });
 }
+
+
+// --- Funções auxiliares (baixo nível) ---
+
+function hasRequiredRegisterFields({ name, email, password }) {
+  return Boolean(name && email && password);
+}
+
+async function checkIfUserExists(email) {
+  const user = await getUserByEmail(email);
+  return Boolean(user);
+}
+
+async function createNewUser({ name, email, password }) {
+  const hashedPassword = await hashPassword(password);
+  return createUser(name, email, hashedPassword);
+}
+
+async function hashPassword(password) {
+  return bcrypt.hash(password, SALT_ROUNDS);
+}
+
+async function loginAfterRegister(req, res, user) {
+  try {
+    await new Promise((resolve, reject) => {
+      req.login(user, (err) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve();
+        }
+      });
+    });
+    res.redirect("/dashboard");
+  } catch (err) {
+    console.error("Erro ao autenticar após registro:", err);
+    req.flash("error", "Erro ao autenticar. Tente fazer login manualmente.");
+    res.redirect("/login");
+  }
+}
+

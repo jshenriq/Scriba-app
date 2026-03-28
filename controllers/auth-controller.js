@@ -20,7 +20,7 @@ export async function registerUser(req, res) {
     password: req.body.password,
   };
 
-  if (!hasRequiredRegisterFields(registerFields)) {
+  if (isMissingRegisterFields(registerFields)) {
     req.flash("error", "Campos obrigatórios");
     return res.redirect("/register");
   }
@@ -53,8 +53,8 @@ export function logout(req, res) {
 
 // --- Funções auxiliares (baixo nível) ---
 
-function hasRequiredRegisterFields({ name, email, password }) {
-  return Boolean(name && email && password);
+function isMissingRegisterFields({ name, email, password }) {
+  return !name || !email || !password;
 }
 
 async function checkIfUserExists(email) {
@@ -64,7 +64,7 @@ async function checkIfUserExists(email) {
 
 async function createNewUser({ name, email, password }) {
   const hashedPassword = await hashPassword(password);
-  return createUser(name, email, hashedPassword);
+  return createUser({ name, email, password: hashedPassword });
 }
 
 async function hashPassword(password) {

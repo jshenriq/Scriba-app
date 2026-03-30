@@ -6,15 +6,15 @@ import {
   createPost as createPostModel,
   deletePost
 } from "../models/post.js";
+import { validateRequiredFields } from "../utils/validator.js";
 
 
 //controller to render pages
 export async function renderDashboardPage(req, res) {
   try {
     const userId = req.user.id;
-    const limitPerPage = 10;
     const pageNumber = 1;
-    const { posts, hasMore } = await getPostsByUserId(userId, limitPerPage, pageNumber);
+    const { posts, hasMore } = await getPostsByUserId(userId, pageNumber)
     res.render("posts/dashboard", { posts, hasMore });
   } catch (error) {
     console.error("Erro ao carregar posts na pagina dashBoard:", error);
@@ -53,8 +53,9 @@ export async function editPost(req, res) {
   const { title, content } = req.body;
   const userId = req.user.id;
 
-  if (!title || !content) {
-    req.flash("error", "Titulo e conteúdo são obrigatórios");
+  const missingFieldError = validateRequiredFields({ title, content });
+  if (missingFieldError) {
+    req.flash("error", missingFieldError);
     return res.redirect(`/edit/${postId}`);
   }
 
@@ -74,8 +75,9 @@ export async function createPost(req, res) {
     const { title, content, imgUrl } = req.body;
     const userId = req.user.id;
     
-    if (!title || !content) {
-      req.flash("error", "Título e conteúdo são obrigatórios");
+    const missingFieldError = validateRequiredFields({ title, content });
+    if (missingFieldError) {
+      req.flash("error", missingFieldError);
       return res.redirect("/create");
     }
 
@@ -99,11 +101,10 @@ export async function createPost(req, res) {
 //PARA AJAX/API
 export async function getDashboardPostsApi(req, res) {
   const userId = req.user.id;
-  const page = parseInt(req.query.page) || 1;
-  const limit = 10;
+  const pageNumber = parseInt(req.query.page) || 1;
 
   try {
-    const { posts, hasMore } = await getPostsByUserId(userId, limit, page);
+    const { posts, hasMore } = await getPostsByUserId(userId, pageNumber);
     res.json({ posts, hasMore });
   } catch (error) {
     console.error("Erro na API do dashboard:", error);

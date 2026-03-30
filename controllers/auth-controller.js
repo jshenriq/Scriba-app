@@ -1,5 +1,6 @@
 import bcrypt from "bcryptjs";
 import { getUserByEmail, createUser } from "../models/user.js";
+import { validateRequiredFields } from "../utils/validator.js";
 
 const SALT_ROUNDS = 10;
 
@@ -20,8 +21,9 @@ export async function registerUser(req, res) {
     password: req.body.password,
   };
 
-  if (isMissingRegisterFields(registerFields)) {
-    req.flash("error", "Campos obrigatórios");
+  const missingFieldError = validateRequiredFields(registerFields);
+  if (missingFieldError) {
+    req.flash("error", missingFieldError);
     return res.redirect("/register");
   }
 
@@ -53,9 +55,7 @@ export function logout(req, res) {
 
 // --- Funções auxiliares (baixo nível) ---
 
-function isMissingRegisterFields({ name, email, password }) {
-  return !name || !email || !password;
-}
+
 
 async function checkIfUserExists(email) {
   const user = await getUserByEmail(email);

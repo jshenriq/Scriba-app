@@ -35,8 +35,9 @@ export async function getPosts(limit = 3, page = 1, search = '') {
 /**
  * Busca posts de um usuário específico com paginação se houver mais de 10 posts
  */
-export async function getPostsByUserId(userId, limit = 10, page = 1) {
-  const offset = (page - 1) * limit;
+export async function getPostsByUserId(userId, page = 1) {
+  const limitPerPage = 10;
+  const offset = (page - 1) * limitPerPage;
 
   const result = await db.query(
     `SELECT p.*, u.name AS author, TO_CHAR(p.created_at, 'DD/MM/YYYY') AS formatted_date
@@ -45,12 +46,12 @@ export async function getPostsByUserId(userId, limit = 10, page = 1) {
      WHERE p.user_id = $1
      ORDER BY p.created_at DESC
      LIMIT $2 OFFSET $3`,
-    [userId, limit + 1, offset]
+    [userId, limitPerPage + 1, offset]
   );
 
   return {
-    posts: result.rows.slice(0, limit),
-    hasMore: result.rows.length > limit,
+    posts: result.rows.slice(0, limitPerPage),
+    hasMore: result.rows.length > limitPerPage,
   };
 }
 
